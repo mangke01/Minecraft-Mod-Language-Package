@@ -1,16 +1,18 @@
 [
     {
         "targetVersion": "1.12.2",
-        "unTargetLang": [
-            "en_us"
+        "targetLanguage": [
+            "zh_cn"
         ],
         "additionalContent": [
             "LICENSE",
             "pack.mcmeta",
             "pack.png",
-            "README.md"
+            "README.txt"
         ],
-        "modNameBlackList": [],
+        "modNameBlackList": [
+            "gregtechce"
+        ],
         "domainBlackList": [],
         "noProcessNamespace": [
             "font",
@@ -19,14 +21,15 @@
     },
     {
         "targetVersion": "1.16",
-        "unTargetLang": [
-            "en_us"
+        "targetLanguage": [
+            "zh_cn"
         ],
         "additionalContent": [
             "LICENSE",
             "pack.mcmeta",
             "pack.png",
-            "README.md"
+            "README.txt",
+            "assets/alexs-mobs/alexsmobs/lang/en_us.json"
         ],
         "modNameBlackList": [],
         "domainBlackList": [],
@@ -37,14 +40,14 @@
     },
     {
         "targetVersion": "1.16-fabric",
-        "unTargetLang": [
-            "en_us"
+        "targetLanguage": [
+            "zh_cn"
         ],
         "additionalContent": [
             "LICENSE",
             "pack.mcmeta",
             "pack.png",
-            "README.md"
+            "README.txt"
         ],
         "modNameBlackList": [],
         "domainBlackList": [],
@@ -55,17 +58,22 @@
     },
     {
         "targetVersion": "1.18",
-        "unTargetLang": [
-            "en_us"
+        "targetLanguage": [
+            "zh_cn"
         ],
         "additionalContent": [
             "LICENSE",
             "pack.mcmeta",
             "pack.png",
-            "README.md"
+            "README.txt"
         ],
-        "modNameBlackList": [],
-        "domainBlackList": [],
+        "modNameBlackList": [
+            "create"
+        ],
+        "domainBlackList": [
+            "urushi",
+            "thermal"
+        ],
         "noProcessNamespace": [
             "font",
             "textures"
@@ -73,16 +81,42 @@
     },
     {
         "targetVersion": "1.18-fabric",
-        "unTargetLang": [
-            "en_us"
+        "targetLanguage": [
+            "zh_cn"
         ],
         "additionalContent": [
             "LICENSE",
             "pack.mcmeta",
             "pack.png",
-            "README.md"
+            "README.txt"
         ],
         "modNameBlackList": [],
+        "domainBlackList": [
+            "litematica"
+        ],
+        "noProcessNamespace": [
+            "font",
+            "textures"
+        ]
+    },
+    {
+        "targetVersion": "1.19",
+        "targetLanguage": [
+            "zh_cn"
+        ],
+        "additionalContent": [
+            "LICENSE",
+            "pack.mcmeta",
+            "pack.png",
+            "README.txt"
+        ],
+        "modNameBlackList": [
+            "0-example-nop",
+            "0-example-patch",
+            "0-example-simple-clone",
+            "0-example-mixed-clone",
+            "0-example-port"
+        ],
         "domainBlackList": [],
         "noProcessNamespace": [
             "font",

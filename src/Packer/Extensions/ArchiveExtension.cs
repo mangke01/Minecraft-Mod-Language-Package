@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Packer.Models;
+using Serilog;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
-
-using Packer.Models;
-
-using Serilog;
 
 namespace Packer.Extensions
 {
@@ -44,7 +43,7 @@ namespace Packer.Extensions
             string commonPrefix = $"./projects/{config.Version}";
             config.FilesToInitialize.ForEach(path =>
             {
-                var destination = path.StripeModName() // 除掉一层文件夹（在 assets/ 里的各种 fix）
+                var destination = path.StripModName() // 除掉一层文件夹（在 assets/ 里的各种 fix）
                                       .NormalizePath();
                 Log.Information("初始化压缩包：添加 {0}", destination);
                 archive.CreateEntryFromFile($"{commonPrefix}/{path}", destination);
@@ -61,20 +60,20 @@ namespace Packer.Extensions
         /// <returns></returns>
         public static async Task WriteContent(this ZipArchive archive, IEnumerable<Asset> content)
         {
-            Log.Information("添加写入处理后的文件");
-            var tasks = new List<Task>();
-            foreach (var asset in content)
-            {
-                Log.Information("正在添加 asset-domain: {0}", asset.domainName);
-                foreach (var file in asset.contents)
-                {
-                    tasks.Add(archive.CreateLangFile(Path.Combine("assets",
+            Log.Information("添加处理后的文件");
+
+
+            var tasks = content.SelectMany(asset => asset.contents.Select(file => archive.CreateLangFile(Path.Combine("assets",
                                                                   asset.domainName,
-                                                                  file.relativePath),
-                                                     file.stringifiedContent));
-                }
-            }
-            await Task.WhenAll(tasks);
+                                                                  file.RelativePath),
+                                                     file.StringifiedContent)));
+
+            await Task.WhenAll(content.SelectMany(
+                asset => asset.contents.Select(
+                    file => archive.CreateLangFile(destination: Path.Combine("assets",
+                                                                asset.domainName,
+                                                                file.RelativePath),
+                                                   content: file.StringifiedContent))));
             Log.Information("添加完毕");
         }
 
@@ -85,12 +84,13 @@ namespace Packer.Extensions
         /// <param name="bypassed">非文本处理的文件</param>
         public static void WriteBypassed(this ZipArchive archive, Dictionary<string, string> bypassed)
         {
-            Log.Information("添加写入未经处理的文件");
+            Log.Information("添加未经处理的文件");
             foreach (var pair in bypassed)
             {
-                Log.Information("正在添加 {0}", pair.Value);
+                var normalizedEntryName = pair.Value.NormalizePath();
+                Log.Information("正在添加 {0}", normalizedEntryName);
                 archive.CreateEntryFromFile(sourceFileName: pair.Key,
-                                            entryName: pair.Value.NormalizePath());
+                                            entryName:      normalizedEntryName);
             }
             Log.Information("添加完毕");
         }
